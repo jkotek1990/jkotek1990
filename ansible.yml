@@ -1,0 +1,28 @@
+
+- hosts: all 
+  become: true
+  tasks:
+   - name: Add epel-repo
+     yum:
+      name: epel-release
+      state: present
+
+   - name: Install httpd
+     yum:
+      name: httpd
+      state: present
+
+   - name: Install mod_ssl
+     yum:
+      name: mod_ssl
+      state: present
+
+   - name: add index.html file
+     get_url:
+      url: https://raw.githubusercontent.com/jkotek1990/jkotek1990/main/index.html 
+      dest: /var/www/html/index.html
+
+   - name: Start Httpd
+     service:
+      name: httpd
+      state: started
